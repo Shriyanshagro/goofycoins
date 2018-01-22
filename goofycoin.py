@@ -69,13 +69,19 @@ class User(object):
 
     # return publickey of provided privatekey
     def getPublicKey(self, privatekey):
+        if not self.user.get(privatekey):
+            raise GoofycoinError("Invalid privatekey")
         return self.user.get(privatekey)['publickey']
 
     # return coin holdings of provided privatekey
     def getHolding(self, privatekey):
+        if not self.user.get(privatekey):
+            raise GoofycoinError("Invalid privatekey")
         return self.user.get(privatekey)['holdings']
 
     def getPrivateKey(self, publickey):
+        if not self.keymap.get(publickey):
+            raise GoofycoinError("Invalid publickey")
         return self.keymap.get(publickey)
 
 class Coin(object):
@@ -241,4 +247,3 @@ if __name__ == "__main__":
             print
         except GoofycoinError as e:
             print e.message
-            
